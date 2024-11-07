@@ -20,6 +20,19 @@ A fordításhoz és a tesztek futtatásához az alábbi parancsot használd:
 ```bash
 mvn test
 ```
+
+A projekt code coverage tesztelése:
+
+```bash
+mvn clean test
+```
+
+Html eredmény fájl létrehozása:
+
+```bash
+mvn jacoco:report
+```
+
 ## Áttekintés
 
 A Telefonkönyv alkalmazás több funkciót kínál a felhasználók számára, beleértve az új kapcsolatok hozzáadását, a meglévő bejegyzések szerkesztését, törlését és különféle szűrési lehetőségeket a keresés során. Az alkalmazás grafikus felhasználói felületét a Swing könyvtár segítségével valósítjuk meg, a kapcsolatok megjelenítése pedig egy `JTable` komponensen keresztül történik.
