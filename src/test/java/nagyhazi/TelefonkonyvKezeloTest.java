@@ -7,7 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class TelefonkonyvKezeloTeszt {
+public class TelefonkonyvKezeloTest {
 
     private TelefonkonyvKezelo telefonkonyvKezelo;
 

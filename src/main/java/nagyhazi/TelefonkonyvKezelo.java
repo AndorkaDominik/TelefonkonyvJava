@@ -48,6 +48,7 @@ class TelefonkonyvKezelo implements Serializable{
         }
     }
 
+    @SuppressWarnings("unchecked")
     public void loadFromFile(String filename) throws IOException, ClassNotFoundException {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
             telefonkonyv = (ArrayList<Szemely>) ois.readObject();
