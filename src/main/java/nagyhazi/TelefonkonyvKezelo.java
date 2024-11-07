@@ -5,9 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-class TelefonkonyvKezelo {
+class TelefonkonyvKezelo implements Serializable{
     private ArrayList<Szemely> telefonkonyv;
 
     public TelefonkonyvKezelo() {

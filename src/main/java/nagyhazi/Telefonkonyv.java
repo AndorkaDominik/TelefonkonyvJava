@@ -3,40 +3,19 @@ package nagyhazi;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-// Import JUnit classes
-// import org.junit.runner.JUnitCore;
-// import org.junit.runner.Result;
-// import org.junit.runner.notification.Failure;
-
-
 public class Telefonkonyv extends JFrame {
-    private TelefonkonyvKezelo telefonkonyvKezelo;
+    public TelefonkonyvKezelo telefonkonyvKezelo;
     private JTable tabla;
     private DefaultTableModel tablaModel;
 
     public Telefonkonyv() {
-
-        // Show selection dialog
-        SelectionDialog selectionDialog = new SelectionDialog(this);
-        selectionDialog.setVisible(true);
-
-        if (selectionDialog.isRunPhonebook()) {
-            // Proceed with phonebook functionality
-            initializePhonebook();
-        } else if (selectionDialog.isRunTest()) {
-            // Run tests and exit
-            // runTests();
-            System.exit(0);
-        } else {
-            System.exit(0);
-        }
+        initializePhonebook();
     }
 
     private void initializePhonebook() {
@@ -287,35 +266,12 @@ public class Telefonkonyv extends JFrame {
         }
     }
 
-/*
- * private void runTests() {
- * // Futassuk le a JUnit teszteket programból
- * Result result = JUnitCore.runClasses(TelefonkonyvKezeloTeszt.class);
- * 
- * StringBuilder sb = new StringBuilder();
- * sb.append("Tesztek futtatva: ").append(result.getRunCount()).append("\n");
- * sb.append("Sikertelen tesztek: ").append(result.getFailureCount()).append(
- * "\n");
- * sb.append("Ignore-olt tesztek: ").append(result.getIgnoreCount()).append("\n"
- * );
- * sb.append("Futtatási idő: ").append(result.getRunTime()).append("ms\n\n");
- * 
- * if (!result.wasSuccessful()) {
- * sb.append("Sikertelen tesztek részletei:\n");
- * for (Failure failure : result.getFailures()) {
- * sb.append(failure.toString()).append("\n");
- * }
- * } else {
- * sb.append("Minden teszt sikeresen lefutott!");
- * }
- * 
- * JOptionPane.showMessageDialog(this, sb.toString(), "Teszt Eredmények",
- * JOptionPane.INFORMATION_MESSAGE);
- * }
- */
     public static void main(String[] args) {
+        // Event Dispatch Thread-ben futtatás
         SwingUtilities.invokeLater(() -> {
+            // Létrehozza a Telefonkonyv ablakot.
             Telefonkonyv frame = new Telefonkonyv();
+            // Láthatóvá teszi az ablakot.
             frame.setVisible(true);
         });
     }

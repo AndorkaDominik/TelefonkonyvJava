@@ -2,9 +2,7 @@ package nagyhazi;
 
 import java.io.Serializable;
 
-import javax.swing.*;
-
-class Szemely implements Serializable {
+class Szemely implements Serializable{
     private String nev;
     private String foglalkozas;
     private String telefonszam;
