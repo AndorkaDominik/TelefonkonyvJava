@@ -1,42 +1,43 @@
-# SE Spaceship
+# Telefonkönyv alkalmazás
 
-This is a sample application for the [Software Engineering](http://www.mit.bme.hu/oktatas/targyak/vimiab04) course at BME MIT.
+Az applikáció célja, hogy egy egyszerűsített Telefonkönyv alkalmazást valósítson meg, amely lehetővé teszi a felhasználók számára a különböző személyes és üzleti kapcsolatok tárolását és kezelését. Az alkalmazás célja, hogy könnyen használható felületet biztosítson a kapcsolatok hozzáadására, módosítására, keresésére, és törlésére, valamint a kapcsolati adatok exportálására egy külső fájlba.
 
-The application is simplified and deliberately contains bugs.
+## Első lépések
 
-## Getting started
+- A projekt Java 11 nyelven készült.
+- Az alkalmazás a [Maven](https://maven.apache.org/) eszközzel építhető.
+- A tesztekhez a [JUnit](https://junit.org/junit4/) keretrendszer kerül felhasználásra, a függőségek izolálásához pedig a [Mockito](https://site.mockito.org/) könyvtár biztosít támogatást.
 
-- The project is implemented in Java 11.
-- The project can be built using [Maven](https://maven.apache.org/).
-- [JUnit](https://junit.org/junit5/) is used for tests, and [Mockito](https://site.mockito.org/) for isolating dependencies.
+A projekt klónozása és fordítása:
 
-Clone the repository and execute Maven to build the application:
-
-```
+```bash
 mvn compile
 ```
 
-To compile and run tests also execute:
+A fordításhoz és a tesztek futtatásához az alábbi parancsot használd:
 
-```
+
+```bash
 mvn test
 ```
+## Áttekintés
 
-(That will be enough to know for the current exercises. If you are more interested, see [this](https://github.com/ftsrg-edu/swsv-labs/wiki/0b-Build-tools) short guide about Maven.)
+A Telefonkönyv alkalmazás több funkciót kínál a felhasználók számára, beleértve az új kapcsolatok hozzáadását, a meglévő bejegyzések szerkesztését, törlését és különféle szűrési lehetőségeket a keresés során. Az alkalmazás grafikus felhasználói felületét a Swing könyvtár segítségével valósítjuk meg, a kapcsolatok megjelenítése pedig egy `JTable` komponensen keresztül történik.
 
-As this is a really simple project, you can use the command-line build tools or a light-weight IDE like [Visual Studio Code](https://code.visualstudio.com/).
+### Fő funkciók
 
-## Overview
+- **Kapcsolat hozzáadása**: Új személyes vagy üzleti kapcsolat felvitele a telefonkönyvbe, beleértve a nevet, telefonszámot, foglalkozást.
+- **Kapcsolat módosítása**: A meglévő kapcsolatok adatainak szerkesztése és frissítése.
+- **Kapcsolat törlése**: Kiválasztott kapcsolatok eltávolítása a telefonkönyvből.
+- **Importálás fájlból**: Lehetőség van korábban elmentett kapcsolati adatok importálására külső fájlból, így a telefonkönyv gyorsan feltölthető meglévő adatokkal.
+- **Exportálás fájlba**: A teljes telefonkönyv adatainak mentése egy külső fájlba, így később is elérhetőek lesznek az adatok.
 
-The project represents an alpha version of a spaceship.
+### Technikai részletek
 
-- The ship (`SpaceShip` interface) can fire one or more lasers or torpedos.
-- We have only one spaceship as of now (`GT4500`).
-- Currently two firing modes (`FiringMode`) are supported: firing only one or all instances of a given weapon type.
-- Lasers are not yet implemented, but the code for torpedo stores are ready (`TorpedoStore`).
-- For the GT4500 ship the rules for firing torpedoes can be found in the Javadoc comment of method `fireTorpedos`. They are already partially implemented.
-- There are currently two tests (`GT4500Test`), but be aware that they are not proper unit tests, as they do not isolate the dependencies of the tested class.
+Az alkalmazás a Java kollekciós keretrendszerét használja a kapcsolatok tárolására és kezelésére, biztosítva ezzel a gyors és hatékony hozzáférést az adatokhoz.
 
-The code can be built, but due to missing features one of the tests fails. The first exercise will be to fix this.
+A projektben a Maven szolgál a függőségek kezelésére és a build folyamat automatizálására, míg a JUnit és Mockito eszközök tesztelési keretrendszerként szolgálnak a funkciók helyességének ellenőrzésére.
 
-// TODO: remove this line
+### Használat
+
+Az alkalmazás egy egyszerű, menüvezérelt felhasználói felületet kínál, amelyet kezdő és haladó felhasználók számára is könnyen áttekinthetővé teszünk. A felhasználói felületen megjelenő funkciók jól átlátható elrendezést biztosítanak, így a felhasználók könnyen navigálhatnak a különböző funkciók között.
