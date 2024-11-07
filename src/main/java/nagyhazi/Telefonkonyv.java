@@ -24,16 +24,16 @@ public class Telefonkonyv extends JFrame {
         telefonkonyvKezelo = new TelefonkonyvKezelo();
 
         // Add sample data
-        telefonkonyvKezelo.addSzemely(new Szemely("Kovács János", "Programozó", "123456789101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Nagy Anna", "Tanár", "987654321101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Szabó Péter", "Orvos", "555555555101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Tóth Gábor", "Számítógépes Mérnök", "222333444101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Kiss Mária", "Ügyvéd", "444555666101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Farkas László", "Építész", "777888999101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Molnár Éva", "Marketing Szakértő", "111222333101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Papp Zoltán", "Képzőművész", "333444555101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Varga Balázs", "Mérnök", "666777888101"));
-        telefonkonyvKezelo.addSzemely(new Szemely("Horváth Klára", "Újságíró", "999000111101"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Kovács János", "Programozó", "12345678910"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Nagy Anna", "Tanár", "98765432110"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Szabó Péter", "Orvos", "55555555510"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Tóth Gábor", "Számítógépes Mérnök", "22233344410"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Kiss Mária", "Ügyvéd", "44455566610"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Farkas László", "Építész", "77788899910"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Molnár Éva", "Marketing Szakértő", "11122233310"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Papp Zoltán", "Képzőművész", "33344455510"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Varga Balázs", "Mérnök", "66677788810"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Horváth Klára", "Újságíró", "99900011110"));
 
         setTitle("Telefonkönyv");
         setSize(1000, 500);
