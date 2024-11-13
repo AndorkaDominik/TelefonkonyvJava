@@ -18,7 +18,7 @@ public class Telefonkonyv extends JFrame {
         initializePhonebook();
     }
 
-    private void initializePhonebook() {
+    public void initializePhonebook() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         telefonkonyvKezelo = new TelefonkonyvKezelo();
@@ -102,14 +102,14 @@ public class Telefonkonyv extends JFrame {
         return button;
     }
 
-    private void loadTableData() {
+    public void loadTableData() {
         tablaModel.setRowCount(0); // Törli a meglévő sorokat
         for (Szemely szemely : telefonkonyvKezelo.getTelefonkonyv()) {
             tablaModel.addRow(new Object[] { szemely.getNev(), szemely.getFoglalkozas(), szemely.getTelefonszam() });
         }
     }
 
-    private boolean validateInput(String nev, String foglalkozas, String telefonszam) {
+    public boolean validateInput(String nev, String foglalkozas, String telefonszam) {
         return !nev.isEmpty() && !foglalkozas.isEmpty() && telefonszam.matches("\\d{11}");
     }
 
@@ -198,7 +198,7 @@ public class Telefonkonyv extends JFrame {
         }
     }
 
-    private void showRecordDetails() {
+    public void showRecordDetails() {
         int selectedRow = tabla.getSelectedRow();
         if (selectedRow != -1) {
             // Get the selected record
@@ -215,6 +215,10 @@ public class Telefonkonyv extends JFrame {
     }
 
     public void exportToCSV(String filename) {
+        if(filename==null || filename.isEmpty()) {
+            filename = "default";
+        }
+
         if (!filename.toLowerCase().endsWith(".csv")) {
             filename += ".csv";
         }
@@ -239,6 +243,10 @@ public class Telefonkonyv extends JFrame {
     }
 
     public void importFromCSV(String filename) {
+        if (filename == null || filename.isEmpty()) {
+            filename = "default";
+        }
+
         if (!filename.toLowerCase().endsWith(".csv")) {
             filename += ".csv";
         }
@@ -264,6 +272,10 @@ public class Telefonkonyv extends JFrame {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this, "Hiba történt az importálás során: " + e.getMessage());
         }
+    }
+
+    public JTable getTabla() {
+        return tabla;
     }
 
     public static void main(String[] args) {

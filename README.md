@@ -21,6 +21,8 @@ A fordításhoz és a tesztek futtatásához az alábbi parancsot használd:
 mvn test
 ```
 
+### Coverage
+
 A projekt code coverage tesztelése:
 
 ```bash
