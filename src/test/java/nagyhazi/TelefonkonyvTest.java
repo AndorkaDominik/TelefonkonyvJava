@@ -14,12 +14,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import org.junit.After;
 import org.junit.Before;
-import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TelefonkonyvTest {
@@ -29,93 +31,74 @@ public class TelefonkonyvTest {
 
     @Before
     public void setUp() {
-        // Initialize the phonebook
         telefonkonyv = new Telefonkonyv();
         telefonkonyvKezelo = telefonkonyv.telefonkonyvKezelo;
     }
 
     @Test
     public void testAddSzemely() {
-        // Given
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
 
-        // When
         telefonkonyvKezelo.addSzemely(newPerson);
 
-        // Then
         assertEquals(11, telefonkonyvKezelo.getTelefonkonyv().size());
         assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(10).getNev());
     }
 
     @Test
     public void testModifySzemely() {
-        // Given
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
         telefonkonyvKezelo.addSzemely(newPerson);
         Szemely modifiedPerson = new Szemely("Test János Modified", "Senior Programozó", "12345678901");
 
-        // When
         telefonkonyvKezelo.modifySzemely(0, modifiedPerson);
 
-        // Then
         assertEquals("Test János Modified", telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
         assertEquals("Senior Programozó", telefonkonyvKezelo.getTelefonkonyv().get(0).getFoglalkozas());
     }
 
     @Test
     public void testRemoveSzemely() {
-        // Given
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
         telefonkonyvKezelo.addSzemely(newPerson);
 
-        // When
         telefonkonyvKezelo.removeSzemely(0);
 
-        // Then
         assertEquals(10, telefonkonyvKezelo.getTelefonkonyv().size());
     }
 
     @Test
     public void testSearch() {
-        // Given
         Szemely person1 = new Szemely("Test Juliska", "Programozó", "12345678901");
         Szemely person2 = new Szemely("Anna Nagy", "Tanár", "98765432110");
         telefonkonyvKezelo.addSzemely(person1);
         telefonkonyvKezelo.addSzemely(person2);
 
-        // When
         List<Szemely> results = telefonkonyvKezelo.search("Juliska");
 
-        // Then
         assertEquals(1, results.size());
         assertEquals("Test Juliska", results.get(0).getNev());
     }
 
     @Test
     public void testExportToCSV() throws IOException {
-        // Given
         Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
         Szemely person2 = new Szemely("Anna Nagy", "Tanár", "98765432110");
         telefonkonyvKezelo.addSzemely(person1);
         telefonkonyvKezelo.addSzemely(person2);
 
-        // File path
         String filename = "test_export.csv";
 
-        // When
         telefonkonyv.exportToCSV(filename);
 
-        // Then
         File file = new File(filename);
         assertTrue(file.exists());
 
-        // Clean up
         file.delete();
     }
 
     @Test
     public void testImportFromCSV() throws IOException {
-        // Given
         String filename = "test_import.csv";
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             writer.println("Név;Foglalkozás;Telefonszám");
@@ -123,15 +106,12 @@ public class TelefonkonyvTest {
             writer.println("Anna Nagy;Tanár;98765432110");
         }
 
-        // When
         telefonkonyv.importFromCSV(filename);
 
-        // Then
         assertEquals(12, telefonkonyvKezelo.getTelefonkonyv().size());
         assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(10).getNev());
         assertEquals("Anna Nagy", telefonkonyvKezelo.getTelefonkonyv().get(11).getNev());
 
-        // Clean up
         new File(filename).delete();
     }
 
@@ -152,14 +132,11 @@ public class TelefonkonyvTest {
 
     @Test
     public void testTableData() {
-        // Given
         Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
         telefonkonyvKezelo.addSzemely(person1);
 
-        // When
         telefonkonyv.loadTableData();
 
-        // Then
         JTable table = telefonkonyv.getTabla();
         assertEquals("Test János", table.getValueAt(10, 0));
         assertEquals("Programozó", table.getValueAt(10, 1));
@@ -179,6 +156,8 @@ public class TelefonkonyvTest {
 
         // Assuming no exception is thrown and no changes occur
         DefaultTableModel model = (DefaultTableModel) telefonkonyv.getTabla().getModel();
+
+
 
         assertEquals(10, model.getRowCount());
 
@@ -243,4 +222,104 @@ public class TelefonkonyvTest {
         assertEquals("Kovács János",
         telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
     }
+
+
+    @Test
+    public void test_initialize_telefonkonyv_ui_components() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        assertNotNull(telefonkonyv.getTabla());
+        assertEquals(10, telefonkonyv.getTabla().getRowCount());
+        assertEquals("Telefonkönyv", telefonkonyv.getTitle());
+        assertEquals(1000, telefonkonyv.getWidth());
+        assertEquals(500, telefonkonyv.getHeight());
+    }
+
+    @Test
+    public void test_jframe_title_is_set_correctly() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        assertEquals("Telefonkönyv", telefonkonyv.getTitle());
+    }
+
+    @Test
+    public void test_table_column_headers() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        JTable table = telefonkonyv.getTabla();
+        assertNotNull(table);
+        assertEquals("Név", table.getColumnName(0));
+        assertEquals("Foglalkozás", table.getColumnName(1));
+        assertEquals("Telefonszám", table.getColumnName(2));
+    }
+
+    /*
+    @Test
+    public void test_buttons_visibility_and_labels() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        telefonkonyv.setVisible(true);
+
+        JPanel buttonPanel = (JPanel) telefonkonyv.getContentPane().getComponent(1);
+        assertNotNull(buttonPanel);
+        assertEquals(7, buttonPanel.getComponentCount());
+
+        JButton ujRekordButton = (JButton) buttonPanel.getComponent(0);
+        JButton modositButton = (JButton) buttonPanel.getComponent(1);
+        JButton torlesButton = (JButton) buttonPanel.getComponent(2);
+        JButton keresButton = (JButton) buttonPanel.getComponent(3);
+        JButton detailsButton = (JButton) buttonPanel.getComponent(4);
+        JButton importButton = (JButton) buttonPanel.getComponent(5);
+        JButton mentesButton = (JButton) buttonPanel.getComponent(6);
+
+        assertEquals("Új rekord létrehozása", ujRekordButton.getText());
+        assertEquals("Módosítás", modositButton.getText());
+        assertEquals("Törlés", torlesButton.getText());
+        assertEquals("Keresés", keresButton.getText());
+        assertEquals("Rekord részletei", detailsButton.getText());
+        assertEquals("Adatok importálása", importButton.getText());
+        assertEquals("Adatbázis fájlba mentése", mentesButton.getText());
+    }
+    */
+    @Test
+    public void test_add_new_record() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        int initialRowCount = telefonkonyv.getTabla().getRowCount();
+
+        telefonkonyv.telefonkonyvKezelo.addSzemely(new Szemely("Teszt Elek", "Tesztelő", "12345678901"));
+        telefonkonyv.loadTableData();
+
+        assertEquals(initialRowCount + 1, telefonkonyv.getTabla().getRowCount());
+        assertEquals("Teszt Elek", telefonkonyv.getTabla().getValueAt(initialRowCount, 0));
+        assertEquals("Tesztelő", telefonkonyv.getTabla().getValueAt(initialRowCount, 1));
+        assertEquals("12345678901", telefonkonyv.getTabla().getValueAt(initialRowCount, 2));
+    }
+
+    /*
+    @Test
+    public void test_uj_rekord_button_opens_input_dialog() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        JButton ujRekordButton = (JButton) telefonkonyv.getContentPane().getComponent(1).getComponent(0);
+    
+        ujRekordButton.doClick();
+    
+        String expectedTitle = "Új rekord hozzáadása";
+        String actualTitle = JOptionPane.getRootFrame().getTitle();
+    
+        assertEquals(expectedTitle, actualTitle);
+    }
+    */
+
+    @Test
+    public void test_add_new_record1() {
+        Telefonkonyv telefonkonyv = new Telefonkonyv();
+        int initialRowCount = telefonkonyv.getTabla().getRowCount();
+
+        // Simulate adding a new record
+        telefonkonyv.telefonkonyvKezelo.addSzemely(new Szemely("Teszt Elek", "Fejlesztő", "12345678901"));
+        telefonkonyv.loadTableData();
+
+        // Verify the new record is added
+        assertEquals(initialRowCount + 1, telefonkonyv.getTabla().getRowCount());
+        assertEquals("Teszt Elek", telefonkonyv.getTabla().getValueAt(initialRowCount, 0));
+        assertEquals("Fejlesztő", telefonkonyv.getTabla().getValueAt(initialRowCount, 1));
+        assertEquals("12345678901", telefonkonyv.getTabla().getValueAt(initialRowCount, 2));
+    }
+
 }
