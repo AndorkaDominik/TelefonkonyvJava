@@ -35,6 +35,7 @@ public class TelefonkonyvTest {
         telefonkonyvKezelo = telefonkonyv.telefonkonyvKezelo;
     }
 
+    // Teszteli, hogy egy uj szemely hozzaadasa mukodik
     @Test
     public void testAddSzemely() {
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
@@ -45,6 +46,7 @@ public class TelefonkonyvTest {
         assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(10).getNev());
     }
 
+    // Teszteli, hogy egy szemely modositasa mukodik
     @Test
     public void testModifySzemely() {
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
@@ -57,6 +59,7 @@ public class TelefonkonyvTest {
         assertEquals("Senior Programozó", telefonkonyvKezelo.getTelefonkonyv().get(0).getFoglalkozas());
     }
 
+    // Teszteli, hogy egy szemely torlese mukodik
     @Test
     public void testRemoveSzemely() {
         Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
@@ -67,6 +70,7 @@ public class TelefonkonyvTest {
         assertEquals(10, telefonkonyvKezelo.getTelefonkonyv().size());
     }
 
+    // Teszteli, hogy a keresesi funkcio mukodik
     @Test
     public void testSearch() {
         Szemely person1 = new Szemely("Test Juliska", "Programozó", "12345678901");
@@ -80,6 +84,7 @@ public class TelefonkonyvTest {
         assertEquals("Test Juliska", results.get(0).getNev());
     }
 
+    // Teszteli, hogy az adatok exportalasa CSV fajlba mukodik
     @Test
     public void testExportToCSV() throws IOException {
         Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
@@ -97,6 +102,7 @@ public class TelefonkonyvTest {
         file.delete();
     }
 
+    // Teszteli, hogy az adatok importalasa CSV fajlbol mukodik
     @Test
     public void testImportFromCSV() throws IOException {
         String filename = "test_import.csv";
@@ -115,6 +121,7 @@ public class TelefonkonyvTest {
         new File(filename).delete();
     }
 
+    // Teszteli, hogy a bemeneti adatok validalasa mukodik
     @Test
     public void testValidateInput() {
         // Test valid inputs
@@ -130,6 +137,7 @@ public class TelefonkonyvTest {
         assertFalse(telefonkonyv.validateInput("John Doe", "", "12345678901"));
     }
 
+    // Teszteli, hogy az adatok betoltese a tablaba mukodik
     @Test
     public void testTableData() {
         Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
@@ -143,6 +151,7 @@ public class TelefonkonyvTest {
         assertEquals("12345678901", table.getValueAt(10, 2));
     }
 
+    // Teszteli, hogy az ures vagy null fajlnevek kezelese mukodik
     @Test
     public void test_handle_empty_or_null_file_paths() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
@@ -169,6 +178,7 @@ public class TelefonkonyvTest {
         file.delete();
     }
 
+    // Teszteli, hogy a telefonkonyv inicializalasa mintaadatokkal mukodik
     @Test
     public void test_initialize_with_sample_data() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
@@ -181,7 +191,7 @@ public class TelefonkonyvTest {
         assertEquals("12345678910", model.getValueAt(0, 2));
     }
 
-    
+    // Teszteli, hogy az adatok exportalasa CSV fajlba mukodik (masodik teszt)
     @Test
     public void testExportToCSV2() throws IOException {
         TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
@@ -202,7 +212,8 @@ public class TelefonkonyvTest {
             assertTrue(line.startsWith("Név;Foglalkozás;Telefonszám"));
         }
     }
-    
+
+    // Teszteli, hogy az adatok importalasa CSV fajlbol mukodik (masodik teszt)
     @Test
     public void testImportFromCSV2() throws IOException {
         String csvData =
@@ -223,7 +234,7 @@ public class TelefonkonyvTest {
         telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
     }
 
-
+    // Teszteli, hogy a telefonkonyv UI komponenseinek inicializalasa mukodik
     @Test
     public void test_initialize_telefonkonyv_ui_components() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
@@ -234,12 +245,14 @@ public class TelefonkonyvTest {
         assertEquals(500, telefonkonyv.getHeight());
     }
 
+    // Teszteli, hogy a JFrame cime helyesen van beallitva
     @Test
     public void test_jframe_title_is_set_correctly() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
         assertEquals("Telefonkönyv", telefonkonyv.getTitle());
     }
 
+    // Teszteli, hogy a tabla oszlopfejlecei helyesen vannak beallitva
     @Test
     public void test_table_column_headers() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
@@ -250,33 +263,7 @@ public class TelefonkonyvTest {
         assertEquals("Telefonszám", table.getColumnName(2));
     }
 
-    /*
-    @Test
-    public void test_buttons_visibility_and_labels() {
-        Telefonkonyv telefonkonyv = new Telefonkonyv();
-        telefonkonyv.setVisible(true);
-
-        JPanel buttonPanel = (JPanel) telefonkonyv.getContentPane().getComponent(1);
-        assertNotNull(buttonPanel);
-        assertEquals(7, buttonPanel.getComponentCount());
-
-        JButton ujRekordButton = (JButton) buttonPanel.getComponent(0);
-        JButton modositButton = (JButton) buttonPanel.getComponent(1);
-        JButton torlesButton = (JButton) buttonPanel.getComponent(2);
-        JButton keresButton = (JButton) buttonPanel.getComponent(3);
-        JButton detailsButton = (JButton) buttonPanel.getComponent(4);
-        JButton importButton = (JButton) buttonPanel.getComponent(5);
-        JButton mentesButton = (JButton) buttonPanel.getComponent(6);
-
-        assertEquals("Új rekord létrehozása", ujRekordButton.getText());
-        assertEquals("Módosítás", modositButton.getText());
-        assertEquals("Törlés", torlesButton.getText());
-        assertEquals("Keresés", keresButton.getText());
-        assertEquals("Rekord részletei", detailsButton.getText());
-        assertEquals("Adatok importálása", importButton.getText());
-        assertEquals("Adatbázis fájlba mentése", mentesButton.getText());
-    }
-    */
+    // Teszteli, hogy egy uj rekord hozzaadasa mukodik
     @Test
     public void test_add_new_record() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
@@ -291,21 +278,7 @@ public class TelefonkonyvTest {
         assertEquals("12345678901", telefonkonyv.getTabla().getValueAt(initialRowCount, 2));
     }
 
-    /*
-    @Test
-    public void test_uj_rekord_button_opens_input_dialog() {
-        Telefonkonyv telefonkonyv = new Telefonkonyv();
-        JButton ujRekordButton = (JButton) telefonkonyv.getContentPane().getComponent(1).getComponent(0);
-    
-        ujRekordButton.doClick();
-    
-        String expectedTitle = "Új rekord hozzáadása";
-        String actualTitle = JOptionPane.getRootFrame().getTitle();
-    
-        assertEquals(expectedTitle, actualTitle);
-    }
-    */
-
+    // Teszteli, hogy egy uj rekord hozzaadasa mukodik (masodik teszt)
     @Test
     public void test_add_new_record1() {
         Telefonkonyv telefonkonyv = new Telefonkonyv();

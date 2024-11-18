@@ -8,6 +8,13 @@ Az applikáció célja, hogy egy egyszerűsített Telefonkönyv alkalmazást val
 - Az alkalmazás a [Maven](https://maven.apache.org/) eszközzel építhető.
 - A tesztekhez a [JUnit](https://junit.org/junit4/) keretrendszer kerül felhasználásra, a függőségek izolálásához pedig a [Mockito](https://site.mockito.org/) könyvtár biztosít támogatást.
 
+Jar(executable) file generálása:
+
+```bash 
+mvn package
+```
+
+
 A projekt klónozása és fordítása:
 
 ```bash
