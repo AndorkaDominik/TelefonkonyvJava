@@ -1,16 +1,9 @@
 package nagyhazi;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 // A telefonkonyv kezelo osztaly,amely lehetove teszi szemelyek hozzaadasat,modositasat, torleset es keresest.
-// Az osztaly implementalja a Serializable interfeszt,hogy lehetove tegye az objektumok fajlba mentését es betolteset.
-class TelefonkonyvKezelo implements Serializable{
+class TelefonkonyvKezelo {
     private ArrayList<Szemely> telefonkonyv;
 
     // Konstruktor
@@ -50,18 +43,5 @@ class TelefonkonyvKezelo implements Serializable{
         return telefonkonyv;
     }
 
-    // Menti a telefonkonyvet egy fajlba.
-    public void saveToFile(String filename) throws IOException {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
-            oos.writeObject(telefonkonyv);
-        }
-    }
-
-    // Betolti a telefonkonyvet egy fajlbol.
-    @SuppressWarnings("unchecked")
-    public void loadFromFile(String filename) throws IOException, ClassNotFoundException {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
-            telefonkonyv = (ArrayList<Szemely>) ois.readObject();
-        }
-    }
+    
 }
