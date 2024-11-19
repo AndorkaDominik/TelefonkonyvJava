@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -114,26 +111,23 @@ public class TelefonkonyvTest {
 
         telefonkonyv.importFromCSV(filename);
 
-        assertEquals(12, telefonkonyvKezelo.getTelefonkonyv().size());
-        assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(10).getNev());
-        assertEquals("Anna Nagy", telefonkonyvKezelo.getTelefonkonyv().get(11).getNev());
+        assertEquals(2, telefonkonyvKezelo.getTelefonkonyv().size());
+        assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
+        assertEquals("Anna Nagy", telefonkonyvKezelo.getTelefonkonyv().get(1).getNev());
 
-        new File(filename).delete();
+
+        File file = new File(filename);
+        assertTrue(file.exists());
+
+        file.delete();
     }
 
     // Teszteli, hogy a bemeneti adatok validalasa mukodik
     @Test
     public void testValidateInput() {
-        // Test valid inputs
         assertTrue(telefonkonyv.validateInput("John Doe", "Programozó", "12345678901"));
-
-        // Test invalid phone number
         assertFalse(telefonkonyv.validateInput("John Doe", "Programozó", "1234567890"));
-
-        // Test empty name
         assertFalse(telefonkonyv.validateInput("", "Programozó", "12345678901"));
-
-        // Test empty occupation
         assertFalse(telefonkonyv.validateInput("John Doe", "", "12345678901"));
     }
 
@@ -157,24 +151,20 @@ public class TelefonkonyvTest {
         Telefonkonyv telefonkonyv = new Telefonkonyv();
         telefonkonyv.initializePhonebook();
 
-        telefonkonyv.importFromCSV(null);
-        telefonkonyv.importFromCSV("");
-
         telefonkonyv.exportToCSV(null);
         telefonkonyv.exportToCSV("");
+
+        telefonkonyv.importFromCSV(null);
+        telefonkonyv.importFromCSV("");
 
         // Assuming no exception is thrown and no changes occur
         DefaultTableModel model = (DefaultTableModel) telefonkonyv.getTabla().getModel();
 
-
-
         assertEquals(10, model.getRowCount());
 
-        // Then
         File file = new File("default.csv");
         assertTrue(file.exists());
 
-        // Clean up
         file.delete();
     }
 
@@ -205,7 +195,6 @@ public class TelefonkonyvTest {
         telefonkonyv.exportToCSV(tempFile.getAbsolutePath());
         
         assertTrue(tempFile.exists());
-        // Check the content of the file
         try (BufferedReader reader = new BufferedReader(new FileReader(tempFile))) {
             String line = reader.readLine();
             assertNotNull(line);

@@ -3,14 +3,11 @@ package nagyhazi;
 import org.junit.*;
 import static org.junit.Assert.*;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class TelefonkonyvKezeloTest {
 
     private TelefonkonyvKezelo telefonkonyvKezelo;
-    private String testFilename = "test_telefonkonyv.dat";
 
     @Before
     public void setUp() {
@@ -78,5 +75,21 @@ public class TelefonkonyvKezeloTest {
 
         assertEquals("Size of telefonkonyv list should be 1 after adding a Szemely", 3, telefonkonyvList.size());
         assertTrue("telefonkonyv list should contain the added Szemely", telefonkonyvList.contains(szemely));
+    }
+
+    @Test
+    public void test_clear_non_empty_telefonkonyv() {
+        TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
+        telefonkonyvKezelo.addSzemely(new Szemely("John Doe", "Kovács", "06202001232"));
+        telefonkonyvKezelo.addSzemely(new Szemely("Jane Smith", "Műkörmös", "06202001231"));
+        telefonkonyvKezelo.clearTelefonkonyv();
+        assertTrue(telefonkonyvKezelo.getTelefonkonyv().isEmpty());
+    }
+
+    @Test
+    public void test_clear_empty_telefonkonyv() {
+        TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
+        telefonkonyvKezelo.clearTelefonkonyv();
+        assertTrue(telefonkonyvKezelo.getTelefonkonyv().isEmpty());
     }
 }

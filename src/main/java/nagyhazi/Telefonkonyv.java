@@ -42,7 +42,7 @@ public class Telefonkonyv extends JFrame {
         // Ablak nevenke beallitasa
         setTitle("Telefonkönyv");
         // Ablak merete beallitasa
-        setSize(1000, 500);
+        setSize(1150, 500);
         // Ablak a kepernyo kozepen jelenjen meg
         setLocationRelativeTo(null);
 
@@ -60,7 +60,7 @@ public class Telefonkonyv extends JFrame {
         // Alapveto adatok betoltese
         loadTableData();
 
-        // Letrehozza a gombpanelt az aljan
+        // Letrehozza a gombpanelt
         JPanel buttonPanel = new JPanel();
         // Grid elrendezessel beallitja a sor oszlop szamossagot, valamint a kozt a gombok kozott
         buttonPanel.setLayout(new GridLayout(1, 7, 5, 5));
@@ -72,7 +72,7 @@ public class Telefonkonyv extends JFrame {
         JButton keresButton = createStyledButton("Keresés");
         JButton detailsButton = createStyledButton("Rekord részletei");
         JButton importButton = createStyledButton("Adatok importálása");
-        JButton mentesButton = createStyledButton("Adatbázis fájlba mentése");
+        JButton mentesButton = createStyledButton("Fájlba mentés");
 
         // Esemenykezelok hozzaadasa a gombokhoz
         ujRekordButton.addActionListener(e -> ujRekord());
@@ -102,7 +102,7 @@ public class Telefonkonyv extends JFrame {
         buttonPanel.add(importButton);
         buttonPanel.add(mentesButton);
 
-        // Gombpanel hozzadasa az ablakhoz
+        // Gombpanel hozzadasa az ablakhoz aljahoz
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
@@ -310,6 +310,9 @@ public class Telefonkonyv extends JFrame {
         if (!filename.toLowerCase().endsWith(".csv")) {
             filename += ".csv";
         }
+
+        // Torli a telefonkonyvKezelo meglevo bejegyzeseit
+        telefonkonyvKezelo.clearTelefonkonyv();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;

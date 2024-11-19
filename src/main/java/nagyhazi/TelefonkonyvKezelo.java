@@ -11,6 +11,11 @@ class TelefonkonyvKezelo {
         telefonkonyv = new ArrayList<>();
     }
 
+    // Visszaadja a telefonkonyvet
+    public ArrayList<Szemely> getTelefonkonyv() {
+        return telefonkonyv;
+    }
+
     // Hozzaad egy szemelyt a telefonkonyvhoz
     public void addSzemely(Szemely szemely) {
         telefonkonyv.add(szemely);
@@ -38,10 +43,7 @@ class TelefonkonyvKezelo {
         return talalatok;
     }
 
-    // Visszaadja a telefonkonyvet
-    public ArrayList<Szemely> getTelefonkonyv() {
-        return telefonkonyv;
+    public void clearTelefonkonyv() {
+        telefonkonyv.clear();
     }
-
-    
 }
