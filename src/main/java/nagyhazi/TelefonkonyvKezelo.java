@@ -2,7 +2,7 @@ package nagyhazi;
 
 import java.util.ArrayList;
 
-// A telefonkonyv kezelo osztaly,amely lehetove teszi szemelyek hozzaadasat,modositasat, torleset es keresest.
+// A telefonkonyv kezelo osztaly,amely lehetove teszi szemelyek hozzaadasat,modositasat, torleset es keresest
 class TelefonkonyvKezelo {
     private ArrayList<Szemely> telefonkonyv;
 

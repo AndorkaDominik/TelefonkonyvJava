@@ -77,18 +77,12 @@ public class TelefonkonyvKezeloTest {
         assertTrue("telefonkonyv list should contain the added Szemely", telefonkonyvList.contains(szemely));
     }
 
+    // Teszteli, hogy a telefonkonyv uritese megfeleloen mukodik-e
     @Test
     public void test_clear_non_empty_telefonkonyv() {
         TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
         telefonkonyvKezelo.addSzemely(new Szemely("John Doe", "Kovács", "06202001232"));
         telefonkonyvKezelo.addSzemely(new Szemely("Jane Smith", "Műkörmös", "06202001231"));
-        telefonkonyvKezelo.clearTelefonkonyv();
-        assertTrue(telefonkonyvKezelo.getTelefonkonyv().isEmpty());
-    }
-
-    @Test
-    public void test_clear_empty_telefonkonyv() {
-        TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
         telefonkonyvKezelo.clearTelefonkonyv();
         assertTrue(telefonkonyvKezelo.getTelefonkonyv().isEmpty());
     }

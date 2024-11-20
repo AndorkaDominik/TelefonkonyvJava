@@ -2,6 +2,7 @@ package nagyhazi;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Telefonkonyv extends JFrame {
     public Telefonkonyv() {
         initializePhonebook();
     }
+
 
     public void initializePhonebook() {
         // Az alkalmazás teljesen leall, amikor az ablak bezarasra kerul
@@ -39,7 +41,7 @@ public class Telefonkonyv extends JFrame {
         telefonkonyvKezelo.addSzemely(new Szemely("Varga Balázs", "Mérnök", "66677788810"));
         telefonkonyvKezelo.addSzemely(new Szemely("Horváth Klára", "Újságíró", "99900011110"));
 
-        // Ablak nevenke beallitasa
+        // Ablak nevenek beallitasa
         setTitle("Telefonkönyv");
         // Ablak merete beallitasa
         setSize(1150, 500);
@@ -49,12 +51,17 @@ public class Telefonkonyv extends JFrame {
         // Elrendezes beallitasa
         setLayout(new BorderLayout());
 
-        // Létre hozza a táblamodellt és a táblát
-        tablaModel = new DefaultTableModel(new Object[] { "Név", "Foglalkozás", "Telefonszám" }, 0);
+        // Letre hozza a tablamodellt es a tablat
+        tablaModel = new DefaultTableModel(new Object[] { "Név", "Foglalkozás", "Telefonszám" }, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // A cellák nem módosíthatóak
+            }
+        };
         tabla = new JTable(tablaModel);
-        // Létrehoz egy görgethető panelt, amely tartalmazza a táblát
+        // Letrehoz egy gorgetheto panelt, amely tartalmazza a tablat
         JScrollPane scrollPane = new JScrollPane(tabla);
-        // Hozzáadja a görgethető panelt az ablak közepéhez
+        // Hozzaadja a gorgetheto panelt az ablak kozepehez
         add(scrollPane, BorderLayout.CENTER);
 
         // Alapveto adatok betoltese
@@ -62,7 +69,8 @@ public class Telefonkonyv extends JFrame {
 
         // Letrehozza a gombpanelt
         JPanel buttonPanel = new JPanel();
-        // Grid elrendezessel beallitja a sor oszlop szamossagot, valamint a kozt a gombok kozott
+        // Grid elrendezessel beallitja a sor oszlop szamossagot, valamint a kozt a
+        // gombok kozott
         buttonPanel.setLayout(new GridLayout(1, 7, 5, 5));
 
         // Gombok letrehozasa nem alap kinezettel
@@ -129,6 +137,25 @@ public class Telefonkonyv extends JFrame {
         }
     }
 
+    // Ellenorzi, hogy a nev, foglalkozas es telefonszam mezők érvényesek-e
+    private boolean isValidInput(String nev, String foglalkozas, String telefonszam) {
+        if (!nev.matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]+")) {
+            JOptionPane.showMessageDialog(this, "A név nem tartalmazhat számokat.", "Hiba", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!foglalkozas.matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]+")) {
+            JOptionPane.showMessageDialog(this, "A foglalkozás nem tartalmazhat számokat.", "Hiba",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (!telefonszam.matches("[0-9+]+")) {
+            JOptionPane.showMessageDialog(this, "A telefonszám csak számokat és + jelet tartalmazhat.", "Hiba",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
+
     // Ellenorzi hogy a megadott adatok nem e uresek vagy nem eleg hosszuak
     public boolean validateInput(String nev, String foglalkozas, String telefonszam) {
         return !nev.isEmpty() && !foglalkozas.isEmpty() && telefonszam.matches("\\d{11}");
@@ -141,7 +168,8 @@ public class Telefonkonyv extends JFrame {
         JTextField foglalkozasField = new JTextField();
         JTextField telefonszamField = new JTextField();
 
-        // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket és a hozzajuk tartozo cimkeket
+        // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket és a hozzajuk
+        // tartozo cimkeket
         Object[] inputFields = {
                 "Név:", nevField,
                 "Foglalkozás:", foglalkozasField,
@@ -149,7 +177,8 @@ public class Telefonkonyv extends JFrame {
         };
 
         // Megjelenít egy parbeszedablakot az uj rekord hozzaadasahoz
-        int option = JOptionPane.showConfirmDialog(this, inputFields, "Új rekord hozzáadása", JOptionPane.OK_CANCEL_OPTION);
+        int option = JOptionPane.showConfirmDialog(this, inputFields, "Új rekord hozzáadása",
+                JOptionPane.OK_CANCEL_OPTION);
 
         // Ha az OK gombra kattint
         if (option == JOptionPane.OK_OPTION) {
@@ -158,8 +187,9 @@ public class Telefonkonyv extends JFrame {
             String foglalkozas = foglalkozasField.getText().trim();
             String telefonszam = telefonszamField.getText().trim();
 
-            // Ellenorzi, hogy a bevitt adatok ervenyesek-e, majd hozzadja az uj szemelyt a tablahoz
-            if (validateInput(nev, foglalkozas, telefonszam)) {
+            // Ellenorzi, hogy a bevitt adatok ervenyesek-e, majd hozzadja az uj szemelyt a
+            // tablahoz
+            if (isValidInput(nev, foglalkozas, telefonszam) && validateInput(nev, foglalkozas, telefonszam)) {
                 Szemely ujSzemely = new Szemely(nev, foglalkozas, telefonszam);
                 telefonkonyvKezelo.addSzemely(ujSzemely);
                 loadTableData();
@@ -176,11 +206,13 @@ public class Telefonkonyv extends JFrame {
         int kivalasztottSor = tabla.getSelectedRow();
         // Ellenorzi, hogy van-e kiválasztott sor
         if (kivalasztottSor != -1) {
-            // Letrehoz harom szovegmezot a nev, foglalkozas es telefonszam bevitelehez, a kivalasztott sor adataival feltoltve
+            // Letrehoz harom szovegmezot a nev, foglalkozas es telefonszam bevitelehez, a
+            // kivalasztott sor adataival feltoltve
             JTextField nevField = new JTextField((String) tablaModel.getValueAt(kivalasztottSor, 0));
             JTextField foglalkozasField = new JTextField((String) tablaModel.getValueAt(kivalasztottSor, 1));
             JTextField telefonszamField = new JTextField((String) tablaModel.getValueAt(kivalasztottSor, 2));
-            // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket es a hozzajuk tartozo cimkeket
+            // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket es a hozzajuk
+            // tartozo cimkeket
             Object[] inputFields = {
                     "Név:", nevField,
                     "Foglalkozás:", foglalkozasField,
@@ -188,7 +220,8 @@ public class Telefonkonyv extends JFrame {
             };
 
             // Megjelenit egy parbeszedablakot a rekord modositasahoz
-            int option = JOptionPane.showConfirmDialog(this, inputFields, "Rekord módosítása", JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(this, inputFields, "Rekord módosítása",
+                    JOptionPane.OK_CANCEL_OPTION);
             // Ha az OK gombra kattintanak
             if (option == JOptionPane.OK_OPTION) {
                 // Lekeri és eltavolitja a felesleges szokozoket a bevitt adatokbol
@@ -197,7 +230,7 @@ public class Telefonkonyv extends JFrame {
                 String telefonszam = telefonszamField.getText().trim();
 
                 // Ellenorzi, hogy a bevitt adatok ervenyesek-e, majd hozzadja az uj szemelyt a tablahoz
-                if (validateInput(nev, foglalkozas, telefonszam)) {
+                if (isValidInput(nev, foglalkozas, telefonszam) && validateInput(nev, foglalkozas, telefonszam)) {
                     Szemely modositottSzemely = new Szemely(nev, foglalkozas, telefonszam);
                     telefonkonyvKezelo.modifySzemely(kivalasztottSor, modositottSzemely);
                     loadTableData();
@@ -232,7 +265,8 @@ public class Telefonkonyv extends JFrame {
 
     // Keres egy rekordot a telefonkonyvben a megadott szoveg alapjan
     public void keresRekord() {
-        // Megjelenit egy parbeszedablakot, ahol a felhasznalo megadhatja a keresett szot
+        // Megjelenit egy parbeszedablakot, ahol a felhasznalo megadhatja a keresett
+        // szot
         String keresettSzoveg = JOptionPane.showInputDialog(this, "Adja meg a keresett szót:");
         // Ellenorzi, hogy a keresett szoveg nem null es nem ures
         if (keresettSzoveg != null && !keresettSzoveg.isEmpty()) {
@@ -242,7 +276,8 @@ public class Telefonkonyv extends JFrame {
             tablaModel.setRowCount(0);
             // Vegigmegy a talalatokon és hozzaadja oket a tablamodellhez
             for (Szemely szemely : talalatok) {
-                tablaModel.addRow(new Object[] { szemely.getNev(), szemely.getFoglalkozas(), szemely.getTelefonszam() });
+                tablaModel
+                        .addRow(new Object[] { szemely.getNev(), szemely.getFoglalkozas(), szemely.getTelefonszam() });
             }
         }
     }
