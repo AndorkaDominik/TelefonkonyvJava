@@ -33,11 +33,18 @@ class TelefonkonyvKezelo {
 
     // Keres a telefonkonyvben a megadott szoveg alapjan.
     public ArrayList<Szemely> search(String keresettSzoveg) {
+        // Az első karakter nagybetűsítése
+        String keresetElsoBetu = Character.toUpperCase(keresettSzoveg.charAt(0)) + "";
+        // Az első karakter nagybetűsítése után a keresett szöveg újraépítése
+        keresettSzoveg = keresetElsoBetu + keresettSzoveg.substring(1);
+
         ArrayList<Szemely> talalatok = new ArrayList<>();
+
         for (Szemely szemely : telefonkonyv) {
-            if (szemely.getNev().contains(keresettSzoveg) || szemely.getFoglalkozas().contains(keresettSzoveg)
-                    || szemely.getTelefonszam().contains(keresettSzoveg)) {
-                talalatok.add(szemely);
+            if (szemely.getNev().contains(keresettSzoveg) || 
+                szemely.getFoglalkozas().contains(keresettSzoveg) || 
+                szemely.getTelefonszam().contains(keresettSzoveg)) {
+                    talalatok.add(szemely);
             }
         }
         return talalatok;

@@ -73,7 +73,7 @@ public class TelefonkonyvKezeloTest {
         telefonkonyvKezelo.addSzemely(szemely);
         ArrayList<Szemely> telefonkonyvList = telefonkonyvKezelo.getTelefonkonyv();
 
-        assertEquals("Size of telefonkonyv list should be 1 after adding a Szemely", 3, telefonkonyvList.size());
+        assertEquals("Size of telefonkonyv list should be 3 after adding a Szemely", 3, telefonkonyvList.size());
         assertTrue("telefonkonyv list should contain the added Szemely", telefonkonyvList.contains(szemely));
     }
 

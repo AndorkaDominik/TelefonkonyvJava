@@ -25,6 +25,7 @@ public class TelefonkonyvTest {
 
     private Telefonkonyv telefonkonyv;
     private TelefonkonyvKezelo telefonkonyvKezelo;
+    private Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
 
     @Before
     public void setUp() {
@@ -35,7 +36,6 @@ public class TelefonkonyvTest {
     // Teszteli, hogy egy uj szemely hozzaadasa mukodik
     @Test
     public void testAddSzemely() {
-        Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
 
         telefonkonyvKezelo.addSzemely(newPerson);
 
@@ -46,7 +46,6 @@ public class TelefonkonyvTest {
     // Teszteli, hogy egy szemely modositasa mukodik
     @Test
     public void testModifySzemely() {
-        Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
         telefonkonyvKezelo.addSzemely(newPerson);
         Szemely modifiedPerson = new Szemely("Test János Modified", "Senior Programozó", "12345678901");
 
@@ -59,7 +58,6 @@ public class TelefonkonyvTest {
     // Teszteli, hogy egy szemely torlese mukodik
     @Test
     public void testRemoveSzemely() {
-        Szemely newPerson = new Szemely("Test János", "Programozó", "12345678901");
         telefonkonyvKezelo.addSzemely(newPerson);
 
         telefonkonyvKezelo.removeSzemely(0);
@@ -84,9 +82,8 @@ public class TelefonkonyvTest {
     // Teszteli, hogy az adatok exportalasa CSV fajlba mukodik
     @Test
     public void testExportToCSV() throws IOException {
-        Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
         Szemely person2 = new Szemely("Anna Nagy", "Tanár", "98765432110");
-        telefonkonyvKezelo.addSzemely(person1);
+        telefonkonyvKezelo.addSzemely(newPerson);
         telefonkonyvKezelo.addSzemely(person2);
 
         String filename = "test_export.csv";
@@ -115,7 +112,6 @@ public class TelefonkonyvTest {
         assertEquals("Test János", telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
         assertEquals("Anna Nagy", telefonkonyvKezelo.getTelefonkonyv().get(1).getNev());
 
-
         File file = new File(filename);
         assertTrue(file.exists());
 
@@ -134,8 +130,7 @@ public class TelefonkonyvTest {
     // Teszteli, hogy az adatok betoltese a tablaba mukodik
     @Test
     public void testTableData() {
-        Szemely person1 = new Szemely("Test János", "Programozó", "12345678901");
-        telefonkonyvKezelo.addSzemely(person1);
+        telefonkonyvKezelo.addSzemely(newPerson);
 
         telefonkonyv.loadTableData();
 
@@ -157,7 +152,6 @@ public class TelefonkonyvTest {
         telefonkonyv.importFromCSV(null);
         telefonkonyv.importFromCSV("");
 
-        // Assuming no exception is thrown and no changes occur
         DefaultTableModel model = (DefaultTableModel) telefonkonyv.getTabla().getModel();
 
         assertEquals(10, model.getRowCount());
@@ -185,42 +179,44 @@ public class TelefonkonyvTest {
     @Test
     public void testExportToCSV2() throws IOException {
         TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
-        telefonkonyvKezelo.addSzemely(new Szemely("Kovács János", "Programozó",
-        "123456789101"));
-        
-        File tempFile = File.createTempFile("testExport", ".csv");
-        
+        telefonkonyvKezelo.addSzemely(new Szemely("Kovács János", "Programozó", "123456789101"));
+
+        File file = new File("testExport.csv");
+
         Telefonkonyv telefonkonyv = new Telefonkonyv();
         telefonkonyv.telefonkonyvKezelo = telefonkonyvKezelo;
-        telefonkonyv.exportToCSV(tempFile.getAbsolutePath());
-        
-        assertTrue(tempFile.exists());
-        try (BufferedReader reader = new BufferedReader(new FileReader(tempFile))) {
+        telefonkonyv.exportToCSV(file.getAbsolutePath());
+
+        assertTrue(file.exists());
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String line = reader.readLine();
             assertNotNull(line);
             assertTrue(line.startsWith("Név;Foglalkozás;Telefonszám"));
         }
+
+        // Fájl törlése a teszt végén
+        file.delete();
     }
 
     // Teszteli, hogy az adatok importalasa CSV fajlbol mukodik (masodik teszt)
     @Test
     public void testImportFromCSV2() throws IOException {
-        String csvData =
-        "Név;Foglalkozás;Telefonszám\nKovács János;Programozó;123456789101\n";
-        File tempFile = File.createTempFile("testImport", ".csv");
-        tempFile.deleteOnExit();
-        
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(tempFile))) {
+        String csvData = "Név;Foglalkozás;Telefonszám\nKovács János;Programozó;123456789101\n";
+        File file = new File("testImport.csv");
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
             writer.write(csvData);
         }
         TelefonkonyvKezelo telefonkonyvKezelo = new TelefonkonyvKezelo();
         Telefonkonyv telefonkonyv = new Telefonkonyv();
         telefonkonyv.telefonkonyvKezelo = telefonkonyvKezelo;
-        telefonkonyv.importFromCSV(tempFile.getAbsolutePath());
-        
+        telefonkonyv.importFromCSV(file.getAbsolutePath());
+
         assertEquals(1, telefonkonyvKezelo.getTelefonkonyv().size());
-        assertEquals("Kovács János",
-        telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
+        assertEquals("Kovács János", telefonkonyvKezelo.getTelefonkonyv().get(0).getNev());
+
+        // Fájl törlése a teszt végén
+        file.delete();
     }
 
     // Teszteli, hogy a telefonkonyv UI komponenseinek inicializalasa mukodik
@@ -230,15 +226,8 @@ public class TelefonkonyvTest {
         assertNotNull(telefonkonyv.getTabla());
         assertEquals(10, telefonkonyv.getTabla().getRowCount());
         assertEquals("Telefonkönyv", telefonkonyv.getTitle());
-        assertEquals(1000, telefonkonyv.getWidth());
+        assertEquals(1150, telefonkonyv.getWidth());
         assertEquals(500, telefonkonyv.getHeight());
-    }
-
-    // Teszteli, hogy a JFrame cime helyesen van beallitva
-    @Test
-    public void test_jframe_title_is_set_correctly() {
-        Telefonkonyv telefonkonyv = new Telefonkonyv();
-        assertEquals("Telefonkönyv", telefonkonyv.getTitle());
     }
 
     // Teszteli, hogy a tabla oszlopfejlecei helyesen vannak beallitva
@@ -266,22 +255,4 @@ public class TelefonkonyvTest {
         assertEquals("Tesztelő", telefonkonyv.getTabla().getValueAt(initialRowCount, 1));
         assertEquals("12345678901", telefonkonyv.getTabla().getValueAt(initialRowCount, 2));
     }
-
-    // Teszteli, hogy egy uj rekord hozzaadasa mukodik (masodik teszt)
-    @Test
-    public void test_add_new_record1() {
-        Telefonkonyv telefonkonyv = new Telefonkonyv();
-        int initialRowCount = telefonkonyv.getTabla().getRowCount();
-
-        // Simulate adding a new record
-        telefonkonyv.telefonkonyvKezelo.addSzemely(new Szemely("Teszt Elek", "Fejlesztő", "12345678901"));
-        telefonkonyv.loadTableData();
-
-        // Verify the new record is added
-        assertEquals(initialRowCount + 1, telefonkonyv.getTabla().getRowCount());
-        assertEquals("Teszt Elek", telefonkonyv.getTabla().getValueAt(initialRowCount, 0));
-        assertEquals("Fejlesztő", telefonkonyv.getTabla().getValueAt(initialRowCount, 1));
-        assertEquals("12345678901", telefonkonyv.getTabla().getValueAt(initialRowCount, 2));
-    }
-
 }
