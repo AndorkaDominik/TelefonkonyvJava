@@ -69,8 +69,7 @@ public class Telefonkonyv extends JFrame{
 
         // Letrehozza a gombpanelt
         JPanel buttonPanel = new JPanel();
-        // Grid elrendezessel beallitja a sor oszlop szamossagot, valamint a kozt a
-        // gombok kozott
+        // Grid elrendezessel beallitja a sor oszlop szamossagot, valamint a kozt a gombok kozott
         buttonPanel.setLayout(new GridLayout(1, 7, 5, 5));
 
         // Gombok letrehozasa nem alap kinezettel
@@ -144,13 +143,11 @@ public class Telefonkonyv extends JFrame{
             return false;
         }
         if (!foglalkozas.matches("[a-zA-ZáéíóöőúüűÁÉÍÓÖŐÚÜŰ ]+")) {
-            JOptionPane.showMessageDialog(this, "A foglalkozás nem tartalmazhat számokat.", "Hiba",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "A foglalkozás nem tartalmazhat számokat.", "Hiba", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if (!telefonszam.matches("[0-9+]+")) {
-            JOptionPane.showMessageDialog(this, "A telefonszám csak számokat és + jelet tartalmazhat.", "Hiba",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "A telefonszám csak számokat.", "Hiba", JOptionPane.ERROR_MESSAGE);
             return false;
         }
         return true;
@@ -168,8 +165,7 @@ public class Telefonkonyv extends JFrame{
         JTextField foglalkozasField = new JTextField();
         JTextField telefonszamField = new JTextField();
 
-        // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket és a hozzajuk
-        // tartozo cimkeket
+        // Letrehoz egy objektumtombot, amely tartalmazza a szovegmezoket és a hozzajuk tartozo cimkeket
         Object[] inputFields = {
                 "Név:", nevField,
                 "Foglalkozás:", foglalkozasField,
@@ -177,8 +173,7 @@ public class Telefonkonyv extends JFrame{
         };
 
         // Megjelenít egy parbeszedablakot az uj rekord hozzaadasahoz
-        int option = JOptionPane.showConfirmDialog(this, inputFields, "Új rekord hozzáadása",
-                JOptionPane.OK_CANCEL_OPTION);
+        int option = JOptionPane.showConfirmDialog(this, inputFields, "Új rekord hozzáadása", JOptionPane.OK_CANCEL_OPTION);
 
         // Ha az OK gombra kattint
         if (option == JOptionPane.OK_OPTION) {
@@ -187,8 +182,7 @@ public class Telefonkonyv extends JFrame{
             String foglalkozas = foglalkozasField.getText().trim();
             String telefonszam = telefonszamField.getText().trim();
 
-            // Ellenorzi, hogy a bevitt adatok ervenyesek-e, majd hozzadja az uj szemelyt a
-            // tablahoz
+            // Ellenorzi, hogy a bevitt adatok ervenyesek-e, majd hozzadja az uj szemelyt a tablahoz
             if (isValidInput(nev, foglalkozas, telefonszam) && validateInput(nev, foglalkozas, telefonszam)) {
                 Szemely ujSzemely = new Szemely(nev, foglalkozas, telefonszam);
                 telefonkonyvKezelo.addSzemely(ujSzemely);
@@ -218,8 +212,7 @@ public class Telefonkonyv extends JFrame{
             };
 
             // Megjelenit egy parbeszedablakot a rekord modositasahoz
-            int option = JOptionPane.showConfirmDialog(this, inputFields, "Rekord módosítása",
-                    JOptionPane.OK_CANCEL_OPTION);
+            int option = JOptionPane.showConfirmDialog(this, inputFields, "Rekord módosítása", JOptionPane.OK_CANCEL_OPTION);
             // Ha az OK gombra kattintanak
             if (option == JOptionPane.OK_OPTION) {
                 // Lekeri és eltavolitja a felesleges szokozoket a bevitt adatokbol
@@ -249,8 +242,7 @@ public class Telefonkonyv extends JFrame{
         // Ellenorzi, hogy van-e kiválasztott sor
         if (kivalasztottSor != -1) {
             // Megerosites kerese
-            int confirm = JOptionPane.showConfirmDialog(this, "Biztosan törölni szeretnéd ezt a rekordot?",
-                    "Megerősítés", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(this, "Biztosan törölni szeretnéd ezt a rekordot?", "Megerősítés", JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 telefonkonyvKezelo.removeSzemely(kivalasztottSor);
                 loadTableData();
